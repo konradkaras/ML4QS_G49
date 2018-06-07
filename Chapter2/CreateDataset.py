@@ -33,10 +33,12 @@ class CreateDataset():
 
     def create_dataset(self, start_time, end_time, cols, prefix):
         c = copy.deepcopy(cols)
+
         if not prefix == '':
             for i in range(0, len(c)):
                 c[i] = str(prefix) + str(c[i])
         timestamps = self.create_timestamps(start_time, end_time)
+
         self.data_table = pd.DataFrame(index=timestamps, columns=c)
 
     # Add numerical data, we assume timestamps in the form of nanoseconds from the epoch
@@ -46,12 +48,15 @@ class CreateDataset():
         # Convert timestamps to dates
         dataset[timestamp_col] = pd.to_datetime(dataset[timestamp_col])
 
+
         # Create a table based on the times found in the dataset
         if self.data_table is None:
             self.create_dataset(min(dataset[timestamp_col]), max(dataset[timestamp_col]), value_cols, prefix)
         else:
             for col in value_cols:
                 self.data_table[str(prefix) + str(col)] = np.nan
+
+        print self.data_table
 
         # Over all rows in the new table
         for i in range(0, len(self.data_table.index)):
