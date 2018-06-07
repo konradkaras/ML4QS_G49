@@ -56,7 +56,7 @@ class CreateDataset():
             for col in value_cols:
                 self.data_table[str(prefix) + str(col)] = np.nan
 
-        print self.data_table
+
 
         # Over all rows in the new table
         for i in range(0, len(self.data_table.index)):

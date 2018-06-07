@@ -72,7 +72,7 @@ class VisualizeDataset:
 
     def plot_dataset_boxplot(self, dataset, cols):
         ax = dataset[cols].plot.box()
-        ax.set_ylim(-30,30)
+        #ax.set_ylim(dataset[cols].min(),dataset[cols].max())
         plot.show()
 
     # This function plots the real and imaginary amplitudes of the frequencies found in the Fourier transformation.
