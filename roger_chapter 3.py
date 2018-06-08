@@ -38,20 +38,28 @@ milliseconds_per_instance = (dataset.index[1] - dataset.index[0]).microseconds /
 
 outlier_columns = ['hr_watch_rate']
 
-print dataset['hr_watch_rate'].isnull().sum()
-for index, row in dataset.iterrows():
-    if row['hr_watch_rate'] >220 or row['hr_watch_rate'] <27:
-        row['hr_watch_rate'] = None
-print dataset['hr_watch_rate'].isnull().sum()
-
 OutlierDist = DistanceBasedOutlierDetection()
 
 for col in outlier_columns:
+    # And try out all different approaches. Note that we have done some optimization
+    # of the parameter values for each of the approaches by visual inspection.
+    #dataset = OutlierDistr.chauvenet(dataset, col)
+    #DataViz.plot_binary_outliers(dataset, col, col + '_outlier')
+    #dataset = OutlierDistr.mixture_model(dataset, col)
+    #DataViz.plot_dataset(dataset, [col, col + '_mixture'], ['exact', 'exact'], ['line', 'points'])
+    # This requires:
+    # n_data_points * n_data_points * point_size =
+    # 31839 * 31839 * 64 bits = ~8GB available memory
     dataset = OutlierDist.local_outlier_factor(dataset, [col], 'euclidean', 5)
     DataViz.plot_dataset(dataset, [col, 'lof'], ['exact', 'exact'], ['line', 'points'])
+# Remove all the stuff from the dataset again.
+    cols_to_remove = [col + '_outlier', col + '_mixture', 'simple_dist_outlier', 'lof']
+    for to_remove in cols_to_remove:
+        if to_remove in dataset:
+            del dataset[to_remove]
+
+# We take Chauvent's criterion and apply it to all but the label data...
 
 
 
-
-
-
+dataset.to_csv(dataset_path + 'chapter3_result_outliers.csv')
