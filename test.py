@@ -71,5 +71,6 @@ for milliseconds_per_instance in granularities:
 
 util.print_latex_table_statistics_two_datasets(datasets[0], datasets[0])
 
+
 # Finally, store the last dataset we have generated (250 ms).
 dataset.to_csv(result_dataset_path + 'chapter2_test_result.csv')
