@@ -27,15 +27,31 @@ except IOError as e:
 
 
 dataset.index = pd.to_datetime(dataset.index)
-print dataset.columns()
-#heart_rate= dataset('hr_watch_rate')
+
 
 #Compute the number of milliseconds covered by an instance based on the first two rows
-#milliseconds_per_instance = (dataset.index[1] - dataset.index[0]).microseconds / 1000
+milliseconds_per_instance = (dataset.index[1] - dataset.index[0]).microseconds / 1000
 
 # Step 1: Let us see whether we have some outliers we would prefer to remove.
 
 # Determine the columns we want to experiment on.
-#outlier_columns = ['rate']
+
+outlier_columns = ['hr_watch_rate']
+
+print dataset['hr_watch_rate'].isnull().sum()
+for index, row in dataset.iterrows():
+    if row['hr_watch_rate'] >220 or row['hr_watch_rate'] <27:
+        row['hr_watch_rate'] = None
+print dataset['hr_watch_rate'].isnull().sum()
+
+OutlierDist = DistanceBasedOutlierDetection()
+
+for col in outlier_columns:
+    dataset = OutlierDist.local_outlier_factor(dataset, [col], 'euclidean', 5)
+    DataViz.plot_dataset(dataset, [col, 'lof'], ['exact', 'exact'], ['line', 'points'])
+
+
+
+
 
 
