@@ -1,13 +1,3 @@
-##############################################################
-#                                                            #
-#    Mark Hoogendoorn and Burkhardt Funk (2017)              #
-#    Machine Learning for the Quantified Self                #
-#    Springer                                                #
-#    Chapter 2                                               #
-#                                                            #
-##############################################################
-
-
 dataset_path = './sample_data/'
 result_dataset_path = './intermediate_datafiles/'
 
@@ -30,7 +20,7 @@ if not os.path.exists(result_dataset_path):
 # coarse grained, namely one measurement per minute, and secondly use four measurements
 # per second
 
-granularities = [1000, 10000]
+granularities = [600000]
 datasets = []
 
 for milliseconds_per_instance in granularities:
@@ -42,11 +32,7 @@ for milliseconds_per_instance in granularities:
 
     # We add the accelerometer data (continuous numerical measurements) of the phone and the smartwatch
     # and aggregate the values per timestep by averaging the values/
-    DataSet.add_numerical_dataset('move_acceleration.csv', 'timestamp', ['x','y','z'], 'avg', 'acc_')
-    DataSet.add_numerical_dataset('move_magnetic.csv', 'timestamp', ['x','y','z'], 'avg', 'mag_')
-    DataSet.add_numerical_dataset('move_gravity.csv', 'timestamp', ['x','y','z'], 'avg', 'grv_')
-    DataSet.add_numerical_dataset('move_attitude.csv', 'timestamp', ['roll','pitch','yaw'], 'avg', 'att_')
-    DataSet.add_numerical_dataset('move_rotation.csv', 'timestamp', ['x','y','z'], 'avg', 'rot_')
+    DataSet.add_numerical_dataset('sample_smartphone.csv', 'timestamp(unix)', ['user_acc_x(G)','user_acc_y(G)','user_acc_z(G)'], 'avg', '')
 
     # Get the resulting pandas data table
 
@@ -57,10 +43,10 @@ for milliseconds_per_instance in granularities:
     DataViz = VisualizeDataset()
 
     # Boxplot
-    DataViz.plot_dataset_boxplot(dataset, ['acc_x','acc_y','acc_z'])
+    DataViz.plot_dataset_boxplot(dataset, ['user_acc_x(G)','user_acc_y(G)','user_acc_z(G)'])
 
     # Plot all data
-    DataViz.plot_dataset(dataset, ['acc_', 'mag_', 'grv_', 'att_', 'rot_'], ['like', 'like', 'like', 'like', 'like'], ['line', 'line', 'line', 'line', 'line'])
+    #DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr_watch_rate', 'light_phone_lux', 'mag_', 'press_phone_', 'label'], ['like', 'like', 'like', 'like', 'like', 'like', 'like','like'], ['line', 'line', 'line', 'line', 'line', 'line', 'points', 'points'])
 
     # And print a summary of the dataset
 
@@ -69,8 +55,9 @@ for milliseconds_per_instance in granularities:
 
 # And print the table that has been included in the book
 
-util.print_latex_table_statistics_two_datasets(datasets[0], datasets[0])
-
+util.print_latex_table_statistics_two_datasets(datasets[0], datasets[1])
 
 # Finally, store the last dataset we have generated (250 ms).
-dataset.to_csv(result_dataset_path + 'chapter2_test_result.csv')
+dataset.to_csv(result_dataset_path + 'chapter2_result.csv')
+
+
