@@ -29,11 +29,11 @@ fs = float(1000)/milliseconds_per_instance
 periodic_predictor_cols = ['acc_phone_x','acc_phone_y','acc_phone_z','acc_watch_x','acc_watch_y','acc_watch_z','gyr_phone_x','gyr_phone_y',
                            'gyr_phone_z','gyr_watch_x','gyr_watch_y','gyr_watch_z','mag_phone_x','mag_phone_y','mag_phone_z',
                            'mag_watch_x','mag_watch_y','mag_watch_z']
-data_table = FreqAbs.abstract_frequency(copy.deepcopy(dataset), ['mag_phone_y'], int(float(10000)/milliseconds_per_instance), fs)
+data_table = FreqAbs.abstract_frequency(copy.deepcopy(dataset), ['gyr_phone_y'], int(float(10000)/milliseconds_per_instance), fs)
 
 # Spectral analysis.
 
-DataViz.plot_dataset(data_table, ['mag_phone_y_max_freq', 'mag_phone_y_freq_weighted', 'mag_phone_y_pse', 'label'], ['like', 'like', 'like', 'like'], ['line', 'line', 'line','points'])
+DataViz.plot_dataset(data_table, ['gyr_phone_y_max_freq', 'gyr_phone_y_freq_weighted', 'gyr_phone_y_pse', 'label'], ['like', 'like', 'like', 'like'], ['line', 'line', 'line','points'])
 
 dataset = FreqAbs.abstract_frequency(dataset, periodic_predictor_cols, int(float(10000)/milliseconds_per_instance), fs)
 
