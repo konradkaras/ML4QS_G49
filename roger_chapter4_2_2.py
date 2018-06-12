@@ -89,3 +89,4 @@ ax1.plot(frequencies, values, 'b+')
 ax1.set_xlabel('Frequency (Hz)')
 ax1.set_ylabel('$a$')
 plot.show()
+

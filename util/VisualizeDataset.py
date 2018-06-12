@@ -5,6 +5,7 @@ import pandas as pd
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.patches as mpatches
 import matplotlib.cm as cm
+
 from scipy.cluster.hierarchy import dendrogram
 import itertools
 from scipy.optimize import curve_fit
@@ -209,7 +210,7 @@ class VisualizeDataset:
             size_cluster_i = len(rows.index)
             y_upper = y_lower + size_cluster_i
 
-            color = cm.spectral(float(i) / len(clusters))
+            color = cm.nipy_spectral(float(i) / len(clusters))
             ax1.fill_betweenx(np.arange(y_lower, y_upper),
                           0, ith_cluster_silhouette_values,
                           facecolor=color, edgecolor=color, alpha=0.7)
