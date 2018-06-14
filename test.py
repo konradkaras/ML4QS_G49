@@ -43,10 +43,8 @@ for milliseconds_per_instance in granularities:
     # We add the accelerometer data (continuous numerical measurements) of the phone and the smartwatch
     # and aggregate the values per timestep by averaging the values/
     DataSet.add_numerical_dataset('move_acceleration.csv', 'timestamp', ['x','y','z'], 'avg', 'acc_')
-    DataSet.add_numerical_dataset('move_magnetic.csv', 'timestamp', ['x','y','z'], 'avg', 'mag_')
-    DataSet.add_numerical_dataset('move_gravity.csv', 'timestamp', ['x','y','z'], 'avg', 'grv_')
-    DataSet.add_numerical_dataset('move_attitude.csv', 'timestamp', ['roll','pitch','yaw'], 'avg', 'att_')
-    DataSet.add_numerical_dataset('move_rotation.csv', 'timestamp', ['x','y','z'], 'avg', 'rot_')
+
+    DataSet.add_event_dataset('move_label.csv', 'label_start', 'label_end', 'label', 'binary')
 
     # Get the resulting pandas data table
 
@@ -60,7 +58,7 @@ for milliseconds_per_instance in granularities:
     DataViz.plot_dataset_boxplot(dataset, ['acc_x','acc_y','acc_z'])
 
     # Plot all data
-    DataViz.plot_dataset(dataset, ['acc_', 'mag_', 'grv_', 'att_', 'rot_'], ['like', 'like', 'like', 'like', 'like'], ['line', 'line', 'line', 'line', 'line'])
+    DataViz.plot_dataset(dataset, ['acc_', 'label'], ['like','like'], ['line','points'])
 
     # And print a summary of the dataset
 

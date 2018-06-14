@@ -8,7 +8,6 @@ import copy
 import pandas as pd
 import matplotlib.pyplot as plot
 import util.util as util
-import ProgressBar as pb
 
 
 

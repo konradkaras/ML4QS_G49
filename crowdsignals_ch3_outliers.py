@@ -51,14 +51,14 @@ for col in outlier_columns:
     # n_data_points * n_data_points * point_size =
     # 31839 * 31839 * 64 bits = ~8GB available memory
     try:
-        dataset = OutlierDist.simple_distance_based(dataset, [col], 'euclidean', 0.10, 0.99)
+        dataset = OutlierDist.simple_distance_based(dataset, [col], 'euclidean', 0.5, 0.99)
         DataViz.plot_binary_outliers(dataset, col, 'simple_dist_outlier')
     except MemoryError as e:
         print('Not enough memory available for simple distance-based outlier detection...')
         print('Skipping.')
     
     try:
-        dataset = OutlierDist.local_outlier_factor(dataset, [col], 'euclidean', 5)
+        dataset = OutlierDist.local_outlier_factor(dataset, [col], 'euclidean', 10)
         DataViz.plot_dataset(dataset, [col, 'lof'], ['exact','exact'], ['line', 'points'])
     except MemoryError as e:
         print('Not enough memory available for lof...')
@@ -78,4 +78,4 @@ for col in [c for c in dataset.columns if not 'label' in c]:
     dataset.loc[dataset[col + '_outlier'] == True, col] = np.nan
     del dataset[col + '_outlier']
 
-dataset.to_csv(dataset_path + 'chapter3_result_outliers.csv')
+dataset.to_csv(dataset_path + 'chapter3_result_outliers_c10.csv')

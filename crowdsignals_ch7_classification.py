@@ -42,7 +42,7 @@ except IOError as e:
 if not os.path.exists(export_tree_path):
     os.makedirs(export_tree_path)
 
-dataset.index = dataset.index.to_datetime()
+dataset.index = pd.to_datetime(dataset.index)
 
 # Let us consider our first task, namely the prediction of the label. We consider this as a non-temporal task.
 

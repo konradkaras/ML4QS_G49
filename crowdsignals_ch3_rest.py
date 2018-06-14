@@ -23,7 +23,7 @@ DataViz = VisualizeDataset()
 # Read the result from the previous chapter, and make sure the index is of the type datetime.
 dataset_path = './intermediate_datafiles/'
 dataset = pd.read_csv(dataset_path + 'chapter3_result_outliers.csv', index_col=0)
-dataset.index = dataset.index.to_datetime()
+dataset.index = pd.to_datetime(dataset.index)
 
 # Computer the number of milliseconds covered by an instane based on the first two rows
 milliseconds_per_instance = (dataset.index[1] - dataset.index[0]).microseconds/1000
@@ -44,7 +44,7 @@ for col in [c for c in dataset.columns if not 'label' in c]:
 # Let us try the Kalman filter on the light_phone_lux attribute and study the result.
 
 original_dataset = pd.read_csv(dataset_path + 'chapter2_result.csv', index_col=0)
-original_dataset.index = original_dataset.index.to_datetime()
+original_dataset.index = pd.to_datetime(original_dataset.index)
 KalFilter = KalmanFilters()
 kalman_dataset = KalFilter.apply_kalman_filter(original_dataset, 'acc_phone_x')
 DataViz.plot_imputed_values(kalman_dataset, ['original', 'kalman'], 'acc_phone_x', kalman_dataset['acc_phone_x_kalman'])
