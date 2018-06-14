@@ -20,7 +20,7 @@ DataViz = VisualizeDataset()
 dataset_path = './sample_data/'
 
 try:
-    dataset = pd.read_csv(dataset_path + 'move_magnetic.csv', index_col=0)
+    dataset = pd.read_csv(dataset_path + 'move_acceleration.csv', index_col=0)
 except IOError as e:
     print('File not found, try to run previous crowdsignals scripts first!')
     raise e
