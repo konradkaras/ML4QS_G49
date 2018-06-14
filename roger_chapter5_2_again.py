@@ -21,7 +21,7 @@ DataViz = VisualizeDataset()
 dataset_path = './sample_data/'
 
 try:
-    dataset = pd.read_csv(dataset_path + 'move_gravity.csv', index_col=0)
+    dataset = pd.read_csv(dataset_path + 'move_rotation.csv', index_col=0)
 except IOError as e:
     print('File not found, try to run previous crowdsignals scripts first!')
     raise e
@@ -29,10 +29,9 @@ except IOError as e:
 dataset.index = pd.to_datetime(dataset.index)
 # First let us use non hierarchical clustering.
 
-
 clusteringNH = NonHierarchicalClustering()
 
-#Let us look at k-means first.
+# Let us look at k-means first.
 
 k_values = range(2, 10)
 silhouette_values = []
@@ -53,9 +52,9 @@ plot.ylabel('silhouette score')
 plot.ylim([0,1])
 plot.show()
 
-#And run the knn with the highest silhouette score
+# And run the knn with the highest silhouette score
 
-k = 8
+k = 2
 
 dataset_knn = clusteringNH.k_means_over_instances(copy.deepcopy(dataset), ['x', 'y', 'z'], k, 'default', 50, 50)
 DataViz.plot_clusters_3d(dataset_knn, ['x', 'y', 'z'], 'cluster', ['label'])
@@ -67,7 +66,7 @@ del dataset_knn['silhouette']
 k_values = range(2, 10)
 silhouette_values = []
 
-# Do some initial runs to determine the right number for k
+#Do some initial runs to determine the right number for k
 
 print '===== k medoids clustering ====='
 for k in k_values:
@@ -93,14 +92,14 @@ DataViz.plot_clusters_3d(dataset_kmed, ['x', 'y', 'z'], 'cluster', ['label'])
 DataViz.plot_silhouette(dataset_kmed, 'cluster', 'silhouette')
 util.print_latex_statistics_clusters(dataset_kmed, 'cluster', ['x', 'y', 'z'], 'label')
 
-#And the hierarchical clustering is the last one we try
+# And the hierarchical clustering is the last one we try
 
 clusteringH = HierarchicalClustering()
 
 k_values = range(2, 10)
 silhouette_values = []
 
-#Do some initial runs to determine the right number for the maximum number of clusters.
+# Do some initial runs to determine the right number for the maximum number of clusters.
 
 print '===== agglomaritive clustering ====='
 for k in k_values:
@@ -118,4 +117,6 @@ plot.xlabel('max number of clusters')
 plot.ylabel('silhouette score')
 plot.show()
 
-#commenting stuff
+# And we select the outcome dataset of the knn clustering....
+
+#dataset_knn.to_csv(dataset_path + 'chapter5_result.csv')
