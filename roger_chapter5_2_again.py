@@ -118,3 +118,4 @@ plot.xlabel('max number of clusters')
 plot.ylabel('silhouette score')
 plot.show()
 
+#commenting stuff
