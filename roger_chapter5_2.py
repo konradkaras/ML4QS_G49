@@ -21,7 +21,7 @@ DataViz = VisualizeDataset()
 dataset_path = './sample_data/'
 
 try:
-    dataset = pd.read_csv(dataset_path + 'move_acceleration.csv', index_col=0)
+    dataset = pd.read_csv(dataset_path + 'move_gravity.csv', index_col=0)
 except IOError as e:
     print('File not found, try to run previous crowdsignals scripts first!')
     raise e
@@ -56,7 +56,7 @@ plot.show()
 
 #And run the knn with the highest silhouette score
 
-k = 2
+k = 8
 
 dataset_knn = clusteringNH.k_means_over_instances(copy.deepcopy(dataset), ['x', 'y', 'z'], k, 'default', 50, 50)
 DataViz.plot_clusters_3d(dataset_knn, ['x', 'y', 'z'], 'cluster', ['label'])
