@@ -36,8 +36,8 @@ except IOError as e:
     print('File not found, try to run previous crowdsignals scripts first!')
     raise e
 
-dataset.index = dataset.index.to_datetime()
-
+#dataset.index = dataset.index.to_datetime()
+dataset.index = pd.to_datetime(dataset.index)
 # Let us consider our second task, namely the prediction of the heart rate. We consider this as a temporal task.
 
 prepare = PrepareDatasetForLearning()
