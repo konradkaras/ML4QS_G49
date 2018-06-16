@@ -31,7 +31,7 @@ DataViz = VisualizeDataset()
 dataset_path = './intermediate_datafiles/'
 
 try:
-    dataset = pd.read_csv(dataset_path + 'kokar_chapter5_result_a.csv', index_col=0)
+    dataset = pd.read_csv(dataset_path + 'chapter5_result_a.csv', index_col=0)
 except IOError as e:
     print('File not found, try to run previous crowdsignals scripts first!')
     raise e
@@ -44,7 +44,7 @@ prepare = PrepareDatasetForLearning()
 
 train_X, test_X, train_y, test_y = prepare.split_single_dataset_regression_by_time(dataset, 'mag_z', '2018-06-13 17:54:53',
 #                                                                                   '2016-02-08 18:29:58','2016-02-08 18:29:59')
-                                                                                   '2018-06-13 18:26:53', '2018-06-13 18:36:21')
+                                                                                   '2018-06-13 18:13:53', '2018-06-13 18:27:21')
 
 print 'Training set length is: ', len(train_X.index)
 print 'Test set length is: ', len(test_X.index)
@@ -71,7 +71,7 @@ features_after_chapter_4 = list(set().union(basic_features, pca_features, time_f
 features_after_chapter_5 = list(set().union(basic_features, pca_features, time_features, freq_features, cluster_features))
 
 selected_features = ['temp_pattern_labelsitting','labelrunning', 'temp_pattern_labelexercising(b)labelexercising', 'cluster',
-                     'pca_1_temp_mean_ws_120','pca_2_temp_mean_ws_120','pca_2','acc_y_temp_mean_ws_120','gra_y_pse',
+                     'pca_1_temp_mean_ws_30','pca_2_temp_mean_ws_30','pca_2','acc_y_temp_mean_ws_30','gra_y_pse',
                      'gra_x_pse']
 possible_feature_sets = [basic_features, features_after_chapter_3, features_after_chapter_4, features_after_chapter_5, selected_features]
 feature_names = ['initial set', 'Chapter 3', 'Chapter 4', 'Chapter 5', 'Selected features']
