@@ -31,7 +31,7 @@ DataViz = VisualizeDataset()
 dataset_path = './intermediate_datafiles/'
 
 try:
-    dataset = pd.read_csv(dataset_path + 'kokar_chapter5_result.csv', index_col=0)
+    dataset = pd.read_csv(dataset_path + 'kokar_chapter5_result_a.csv', index_col=0)
 except IOError as e:
     print('File not found, try to run previous crowdsignals scripts first!')
     raise e
@@ -42,7 +42,7 @@ dataset.index = pd.to_datetime(dataset.index)
 
 prepare = PrepareDatasetForLearning()
 
-train_X, test_X, train_y, test_y = prepare.split_single_dataset_regression_by_time(dataset, 'hr_watch_rate', '2018-06-13 17:54:53',
+train_X, test_X, train_y, test_y = prepare.split_single_dataset_regression_by_time(dataset, 'mag_z', '2018-06-13 17:54:53',
 #                                                                                   '2016-02-08 18:29:58','2016-02-08 18:29:59')
                                                                                    '2018-06-13 18:26:53', '2018-06-13 18:36:21')
 
@@ -56,11 +56,9 @@ print 'Test set length is: ', len(test_X.index)
 
 # Select subsets of the features that we will consider:
 
-basic_features = ['acc_phone_x','acc_phone_y','acc_phone_z','acc_watch_x','acc_watch_y','acc_watch_z','gyr_phone_x','gyr_phone_y','gyr_phone_z','gyr_watch_x','gyr_watch_y','gyr_watch_z',
-                  'labelOnTable','labelSitting','labelWashingHands','labelWalking','labelStanding','labelDriving','labelEating','labelRunning',
-                  'light_phone_lux','mag_phone_x','mag_phone_y','mag_phone_z','mag_watch_x','mag_watch_y','mag_watch_z','press_phone_pressure']
+basic_features = ['acc_x','acc_y','acc_z','gra_x','gra_y','gra_z','labelrunning','labelexercising','labeljogging','labelsitting','mag_x','mag_y']
 pca_features = ['pca_1','pca_2','pca_3','pca_4','pca_5','pca_6','pca_7']
-time_features = [name for name in dataset.columns if ('temp_' in name and not 'hr_watch' in name)]
+time_features = [name for name in dataset.columns if ('temp_' in name and not 'mag_z' in name)]
 freq_features = [name for name in dataset.columns if (('_freq' in name) or ('_pse' in name))]
 print '#basic features: ', len(basic_features)
 print '#PCA features: ', len(pca_features)
@@ -72,18 +70,18 @@ features_after_chapter_3 = list(set().union(basic_features, pca_features))
 features_after_chapter_4 = list(set().union(basic_features, pca_features, time_features, freq_features))
 features_after_chapter_5 = list(set().union(basic_features, pca_features, time_features, freq_features, cluster_features))
 
-selected_features = ['temp_pattern_labelOnTable','labelOnTable', 'temp_pattern_labelOnTable(b)labelOnTable', 'cluster',
-                     'pca_1_temp_mean_ws_120','pca_2_temp_mean_ws_120','pca_2','acc_watch_y_temp_mean_ws_120','gyr_watch_y_pse',
-                     'gyr_watch_x_pse']
+selected_features = ['temp_pattern_labelsitting','labelrunning', 'temp_pattern_labelexercising(b)labelexercising', 'cluster',
+                     'pca_1_temp_mean_ws_120','pca_2_temp_mean_ws_120','pca_2','acc_y_temp_mean_ws_120','gra_y_pse',
+                     'gra_x_pse']
 possible_feature_sets = [basic_features, features_after_chapter_3, features_after_chapter_4, features_after_chapter_5, selected_features]
 feature_names = ['initial set', 'Chapter 3', 'Chapter 4', 'Chapter 5', 'Selected features']
 
 # Let us first study whether the time series is stationary and what the autocorrelations are.
 
-dftest = adfuller(dataset['hr_watch_rate'], autolag='AIC')
+dftest = adfuller(dataset['mag_z'], autolag='AIC')
 print dftest
 
-autocorrelation_plot(dataset['hr_watch_rate'])
+autocorrelation_plot(dataset['mag_z'])
 plot.show()
 
 # Now let us focus on the learning part.
@@ -176,8 +174,8 @@ for i in range(0, len(possible_feature_sets)):
 DataViz.plot_performances_regression(['Reservoir', 'RNN', 'Time series'], feature_names, scores_over_all_algs)
 
 regr_train_y, regr_test_y = learner.reservoir_computing(train_X[features_after_chapter_5], train_y, test_X[features_after_chapter_5], test_y, gridsearch=True)
-DataViz.plot_numerical_prediction_versus_real(train_X.index, train_y, regr_train_y['hr_watch_rate'], test_X.index, test_y, regr_test_y['hr_watch_rate'], 'heart rate')
+DataViz.plot_numerical_prediction_versus_real(train_X.index, train_y, regr_train_y['mag_z'], test_X.index, test_y, regr_test_y['mag_z'], 'magnetic field Z')
 regr_train_y, regr_test_y = learner.recurrent_neural_network(train_X[basic_features], train_y, test_X[basic_features], test_y, gridsearch=True)
-DataViz.plot_numerical_prediction_versus_real(train_X.index, train_y, regr_train_y['hr_watch_rate'], test_X.index, test_y, regr_test_y['hr_watch_rate'], 'heart rate')
+DataViz.plot_numerical_prediction_versus_real(train_X.index, train_y, regr_train_y['mag_z'], test_X.index, test_y, regr_test_y['mag_z'], 'magnetic field Z')
 regr_train_y, regr_test_y = learner.time_series(train_X[basic_features], train_y, test_X[features_after_chapter_5], test_y, gridsearch=True)
-DataViz.plot_numerical_prediction_versus_real(train_X.index, train_y, regr_train_y['hr_watch_rate'], test_X.index, test_y, regr_test_y['hr_watch_rate'], 'heart rate')
+DataViz.plot_numerical_prediction_versus_real(train_X.index, train_y, regr_train_y['mag_z'], test_X.index, test_y, regr_test_y['mag_z'], 'magnetic field Z')
