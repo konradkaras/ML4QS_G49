@@ -16,4 +16,4 @@ dataset = pd.read_csv(dataset_path + 'pamap108_sample10.csv', index_col=0)
 # DataViz.plot_dataset_boxplot(dataset, ['imu_hand_mag_x','imu_hand_mag_y','imu_hand_mag_z','imu_chest_mag_x','imu_chest_mag_y','imu_chest_mag_z', 'imu_ankle_mag_x','imu_ankle_mag_y','imu_ankle_mag_z',])
 # DataViz.plot_dataset_boxplot(dataset, ['imu_hand_temp','imu_chest_temp','imu_ankle_temp'])
 
-DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr_watch_rate', 'light_phone_lux', 'mag_', 'press_phone_', 'label'], ['like', 'like', 'like', 'like', 'like', 'like', 'like','like'], ['line', 'line', 'line', 'line', 'line', 'line', 'points', 'points'])
+DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr', 'mag_', 'label'], ['like', 'like', 'like', 'like', 'like','like'], ['line', 'line', 'line', 'line', 'points', 'points'])
