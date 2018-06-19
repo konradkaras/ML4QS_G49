@@ -9,6 +9,7 @@ import os
 
 dataset_path = './sample_data/'
 DataViz = VisualizeDataset()
+#changed the name of variables
 dataset = pd.read_csv(dataset_path + 'pamap108_sample10.csv', index_col=0)
 
 # DataViz.plot_dataset_boxplot(dataset, ['imu_hand_acc_x_16','imu_hand_acc_y_16','imu_hand_acc_z_16','imu_chest_acc_x_16','imu_chest_acc_y_16','imu_chest_acc_z_16', 'imu_ankle_acc_x_16','imu_ankle_acc_y_16','imu_ankle_acc_z_16',])
