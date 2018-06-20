@@ -83,7 +83,7 @@ for milliseconds_per_instance in granularities:
     #DataViz.plot_dataset_boxplot(dataset, ['acc_ankle_x','acc_phone_y','acc_phone_z','acc_watch_x','acc_watch_y','acc_watch_z'])
 
     # Plot all data
-    DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr', 'temp_', 'mag_', 'label'], ['like', 'like', 'like', 'like', 'like', 'like'], ['line', 'line', 'line', 'line', 'line', 'points'])
+    DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr', 'temp_', 'mag_', 'label'], ['like', 'like', 'like', 'like', 'like', 'like', 'like'], ['line', 'line', 'line', 'line', 'line', 'line', 'points'])
 
     # And print a summary of the dataset
 

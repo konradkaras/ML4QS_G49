@@ -3,6 +3,17 @@ import numpy as np
 
 df = pd.read_csv('pamap108_sample10.csv')
 
+initTimestamp = 1454956105656000000
+timestep = 100000000
+
+timestamp_x = np.zeros(len(df))
+
+for i in range(0,len(timestamp_x)):
+	print i
+	timestamp_x[i] = initTimestamp
+	initTimestamp = initTimestamp + timestep
+
+df['timestamp'] = timestamp_x
 
 ### HR
 
