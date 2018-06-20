@@ -182,3 +182,51 @@ result['y'] = df['imu_ankle_mag_y'].interpolate()
 result['z'] = df['imu_ankle_mag_z'].interpolate()
 
 result.to_csv('pamap_imuAnkle_mag.csv')
+
+
+
+# ------------ PREPARE LABELS -----------
+
+result = pd.DataFrame(columns=['label_start','label_end','label'])
+
+actdict =	{
+	0: 'other',
+	1: 'lying',
+	2: 'sitting',
+	3: 'standing',
+	4: 'walking',
+	5: 'running',
+	6: 'cycling',
+	7: 'nordic_walking',
+	9: 'watching_tv',
+	10: 'computer_work',
+	11: 'car_driving',
+	12: 'ascending_stairs',
+	13: 'descending_stairs',
+	16: 'vacuum_cleaning',
+	17: 'ironing',
+	18: 'folding_laundry',
+	19: 'house_cleaning',
+	20: 'playing_soccer',
+	24: 'rope_jumping'
+}
+
+#init settings
+labelFrom = df['timestamp'][0]
+currentLabel = actdict[df['activity'][0]]
+resultIndex = 0
+
+#process
+for i in range(1,len(df)):
+	if df['activity'][i] != df['activity'][i-1]:
+		#set new row in result dataframe
+		result.loc[resultIndex] = [labelFrom, df['timestamp'][i-1], currentLabel]
+		#replace settings
+		labelFrom = df['timestamp'][i]
+		currentLabel = actdict[df['activity'][i]]
+		resultIndex = resultIndex + 1
+
+
+
+
+
