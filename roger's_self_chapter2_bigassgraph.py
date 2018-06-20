@@ -52,8 +52,7 @@ for milliseconds_per_instance in granularities:
     # We add the labels provided by the users. These are categorical events that might overlap. We add them
     # as binary attributes (i.e. add a one to the attribute representing the specific value for the label if it
     # occurs within an interval).
-    #DataSet.add_event_dataset('pamap_label', 'label_start', 'label_end', 'label', 'binary')
-    #DatSet =
+    DataSet.add_event_dataset('pamap_labels.csv', 'label_start', 'label_end', 'label', 'binary')
 
     # We add the amount of light sensed by the phone (continuous numerical measurements) and aggregate by averaging again
     #DataSet.add_numerical_dataset('light_phone.csv', 'timestamp', ['lux'], 'avg', 'light_phone_')
@@ -84,7 +83,7 @@ for milliseconds_per_instance in granularities:
     #DataViz.plot_dataset_boxplot(dataset, ['acc_ankle_x','acc_phone_y','acc_phone_z','acc_watch_x','acc_watch_y','acc_watch_z'])
 
     # Plot all data
-    DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr', 'temp_', 'mag_', 'label'], ['like', 'like', 'like', 'like', 'like', 'like', 'like'], ['line', 'line', 'line', 'line', 'line', 'points', 'points'])
+    DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr', 'temp_', 'mag_', 'label'], ['like', 'like', 'like', 'like', 'like', 'like'], ['line', 'line', 'line', 'line', 'line', 'points'])
 
     # And print a summary of the dataset
 
