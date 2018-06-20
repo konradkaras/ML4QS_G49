@@ -36,7 +36,8 @@ for col in [c for c in dataset.columns if not 'label' in c]:
     #dataset = OutlierDistr.chauvenet(dataset, col)
 
     dataset = OutlierDist.local_outlier_factor(dataset, [col], 'euclidean', 5)
-    DataViz.plot_dataset(dataset, [col, 'lof'], ['exact', 'exact'], ['line', 'points'])
+    #DataViz.plot_dataset(dataset, [col, 'lof'], ['exact', 'exact'], ['line', 'points'])
+    #DataViz.plot_dataset(dataset, [col], ['exact', 'exact'], ['points', 'points'])
 
     dataset.loc[dataset[col + '_lof'] == True, col] = np.nan
     del dataset[col + '_lof']
