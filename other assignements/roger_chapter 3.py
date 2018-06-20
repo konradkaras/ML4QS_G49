@@ -18,7 +18,7 @@ import numpy as np
 DataViz = VisualizeDataset()
 
 # Read the result from the previous chapter, and make sture the index is of the type datetime.
-dataset_path = './intermediate_datafiles/'
+dataset_path = './../intermediate_datafiles/'
 try:
     dataset = pd.read_csv(dataset_path + 'chapter2_result.csv', index_col=0)
 except IOError as e:
