@@ -1,20 +1,99 @@
+
+
+
+dataset_path = './sample_data/'
+result_dataset_path = './intermediate_datafiles/'
+
+# Import the relevant classes.
+
 from Chapter2.CreateDataset import CreateDataset
 from util.VisualizeDataset import VisualizeDataset
-import pandas as pd
 from util import util
 import copy
 import os
 
 
+if not os.path.exists(result_dataset_path):
+    print('Creating result directory: ' + result_dataset_path)
+    os.makedirs(result_dataset_path)
 
-dataset_path = './sample_data/'
-DataViz = VisualizeDataset()
-#changed the name of variables
-dataset = pd.read_csv(dataset_path + 'pamap108_sample10.csv', index_col=0)
+# Chapter 2: Initial exploration of the dataset.
 
-# DataViz.plot_dataset_boxplot(dataset, ['imu_hand_acc_x_16','imu_hand_acc_y_16','imu_hand_acc_z_16','imu_chest_acc_x_16','imu_chest_acc_y_16','imu_chest_acc_z_16', 'imu_ankle_acc_x_16','imu_ankle_acc_y_16','imu_ankle_acc_z_16',])
-# DataViz.plot_dataset_boxplot(dataset, ['imu_hand_gyr_x','imu_hand_gyr_y','imu_hand_gyr_z','imu_chest_gyr_x','imu_chest_gyr_y','imu_chest_gyr_z', 'imu_ankle_gyr_x','imu_ankle_gyr_y','imu_ankle_gyr_z',])
-# DataViz.plot_dataset_boxplot(dataset, ['imu_hand_mag_x','imu_hand_mag_y','imu_hand_mag_z','imu_chest_mag_x','imu_chest_mag_y','imu_chest_mag_z', 'imu_ankle_mag_x','imu_ankle_mag_y','imu_ankle_mag_z',])
-# DataViz.plot_dataset_boxplot(dataset, ['imu_hand_temp','imu_chest_temp','imu_ankle_temp'])
+# Set a granularity (i.e. how big are our discrete time steps). We start very
+# coarse grained, namely one measurement per minute, and secondly use four measurements
+# per second
 
-DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr', 'mag_', 'label'], ['like', 'like', 'like', 'like', 'like','like'], ['line', 'line', 'line', 'line', 'points', 'points'])
+granularities = [60000, 250]
+datasets = []
+
+for milliseconds_per_instance in granularities:
+
+    # Create an initial dataset object with the base directory for our data and a granularity
+    DataSet = CreateDataset(dataset_path, milliseconds_per_instance)
+
+    # Add the selected measurements to it.
+
+    # We add the accelerometer data (continuous numerical measurements) of the phone and the smartwatch
+    # and aggregate the values per timestep by averaging the values/
+    DataSet.add_numerical_dataset('pamap_imuAnkle_acc.csv', 'timestamp', ['x','y','z'], 'avg', 'acc_ankle_')
+    DataSet.add_numerical_dataset('pamap_imuChest_acc.csv', 'timestamp', ['x', 'y', 'z'], 'avg', 'acc_chest_')
+    DataSet.add_numerical_dataset('pamap_imuHand_acc.csv', 'timestamp', ['x', 'y', 'z'], 'avg', 'acc_hand_')
+
+
+    # We add the gyroscope data (continuous numerical measurements) of the phone and the smartwatch
+    # and aggregate the values per timestep by averaging the values/
+    DataSet.add_numerical_dataset('pamap_imuAnkle_gyr.csv', 'timestamp', ['x', 'y', 'z'], 'avg', 'gyr_ankle_')
+    DataSet.add_numerical_dataset('pamap_imuChest_gyr.csv', 'timestamp', ['x', 'y', 'z'], 'avg', 'gyr_chest_')
+    DataSet.add_numerical_dataset('pamap_imuHand_gyr.csv', 'timestamp', ['x', 'y', 'z'], 'avg', 'gyr_hand_')
+
+    # We add the heart rate (continuous numerical measurements) and aggregate by averaging again
+    DataSet.add_numerical_dataset('pamap_hr.csv', 'timestamp', ['hr'], 'avg', 'hr_')
+
+    # We add the labels provided by the users. These are categorical events that might overlap. We add them
+    # as binary attributes (i.e. add a one to the attribute representing the specific value for the label if it
+    # occurs within an interval).
+    #DataSet.add_event_dataset('pamap_label', 'label_start', 'label_end', 'label', 'binary')
+    #DatSet =
+
+    # We add the amount of light sensed by the phone (continuous numerical measurements) and aggregate by averaging again
+    #DataSet.add_numerical_dataset('light_phone.csv', 'timestamp', ['lux'], 'avg', 'light_phone_')
+
+    # We add the magnetometer data (continuous numerical measurements) of the phone and the smartwatch
+    # and aggregate the values per timestep by averaging the values
+    DataSet.add_numerical_dataset('pamap_imuAnkle_mag.csv', 'timestamp', ['x', 'y', 'z'], 'avg', 'mag_ankle_')
+    DataSet.add_numerical_dataset('pamap_imuChest_mag.csv', 'timestamp', ['x', 'y', 'z'], 'avg', 'mag_chest_')
+    DataSet.add_numerical_dataset('pamap_imuHand_mag.csv', 'timestamp', ['x', 'y', 'z'], 'avg', 'mag_hand_')
+    # We add the pressure sensed by the phone (continuous numerical measurements) and aggregate by averaging again
+    DataSet.add_numerical_dataset('pamap_imuAnkle_temp.csv', 'timestamp', ['temp'], 'avg', 'temp_ankle_')
+    DataSet.add_numerical_dataset('pamap_imuChest_temp.csv', 'timestamp', ['temp'], 'avg', 'temp_chest_')
+    DataSet.add_numerical_dataset('pamap_imuHand_temp.csv', 'timestamp', ['temp'], 'avg', 'temp_hand_')
+
+
+    #adding labels
+    #DataSet.add_numerical_dataset('pamap_imuHand_temp.csv', 'timestamp', ['label'], 'avg', 'label')
+
+    # Get the resulting pandas data table
+
+    dataset = DataSet.data_table
+
+    # Plot the data
+
+    DataViz = VisualizeDataset()
+
+    # Boxplot
+    #DataViz.plot_dataset_boxplot(dataset, ['acc_ankle_x','acc_phone_y','acc_phone_z','acc_watch_x','acc_watch_y','acc_watch_z'])
+
+    # Plot all data
+    DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr', 'temp_', 'mag_', 'label'], ['like', 'like', 'like', 'like', 'like', 'like', 'like'], ['line', 'line', 'line', 'line', 'line', 'points', 'points'])
+
+    # And print a summary of the dataset
+
+    util.print_statistics(dataset)
+    datasets.append(copy.deepcopy(dataset))
+
+# And print the table that has been included in the book
+
+util.print_latex_table_statistics_two_datasets(datasets[0], datasets[1])
+
+# Finally, store the last dataset we have generated (250 ms).
+#dataset.to_csv(result_dataset_path + 'chapter2_result.csv')
