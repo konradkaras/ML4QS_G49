@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('pamap108.csv')
+df = pd.read_csv('pamap108_sample10.csv')
 
 initTimestamp = 1454956105656000000
 timestep = 100000000
