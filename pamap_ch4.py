@@ -95,5 +95,5 @@ dataset = dataset.iloc[::skip_points,:]
 #visualization of dataset again
 
 #DataViz.plot_dataset(dataset,['acc_ankle_x','gyr_ankle_x','hr_hr','temp_ankle_temp','mag_ankle_x','pca_2','pca_1','label'],['like','like','like','like','like','like','like','like'],['line','line','line','line','line','line','line','points'])
-
+#topush
 dataset.to_csv(dataset_path + 'pamap_chapter4_result.csv')
