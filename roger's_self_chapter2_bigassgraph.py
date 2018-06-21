@@ -23,7 +23,7 @@ if not os.path.exists(result_dataset_path):
 # coarse grained, namely one measurement per minute, and secondly use four measurements
 # per second
 
-granularities = [5000, 5000]
+granularities = [2000, 2000]
 datasets = []
 
 for milliseconds_per_instance in granularities:
@@ -85,7 +85,7 @@ for milliseconds_per_instance in granularities:
     # Plot all data
     DataViz.plot_dataset_boxplot(dataset, ['mag_ankle_x','mag_ankle_y','mag_ankle_z','mag_chest_x','mag_chest_y','mag_chest_z','mag_hand_x','mag_hand_y','mag_hand_z',])
 
-    DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr', 'temp_', 'mag_'], ['like', 'like', 'like', 'like', 'like', 'like', 'like'], ['line', 'line', 'line', 'line', 'line', 'line', 'points'])
+    DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr', 'temp_', 'mag_', 'label'], ['like', 'like', 'like', 'like', 'like', 'like', 'like'], ['line', 'line', 'line', 'line', 'line', 'points', 'points'])
 
     # And print a summary of the dataset
 
