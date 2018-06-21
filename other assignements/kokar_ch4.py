@@ -19,7 +19,7 @@ import pandas as pd
 DataViz = VisualizeDataset()
 
 # Read the result from the previous chapter, and make sure the index is of the type datetime.
-dataset_path = './intermediate_datafiles/'
+dataset_path = '.././intermediate_datafiles/'
 try:
     dataset = pd.read_csv(dataset_path + 'kokar_chapter3_result_final.csv', index_col=0)
 except IOError as e:

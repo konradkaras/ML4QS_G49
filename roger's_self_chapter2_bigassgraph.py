@@ -23,7 +23,7 @@ if not os.path.exists(result_dataset_path):
 # coarse grained, namely one measurement per minute, and secondly use four measurements
 # per second
 
-granularities = [10000, 2000]
+granularities = [5000, 5000]
 datasets = []
 
 for milliseconds_per_instance in granularities:
@@ -83,6 +83,8 @@ for milliseconds_per_instance in granularities:
     #DataViz.plot_dataset_boxplot(dataset, ['acc_ankle_x','acc_phone_y','acc_phone_z','acc_watch_x','acc_watch_y','acc_watch_z'])
 
     # Plot all data
+    DataViz.plot_dataset_boxplot(dataset, ['mag_ankle_x','mag_ankle_y','mag_ankle_z','mag_chest_x','mag_chest_y','mag_chest_z','mag_hand_x','mag_hand_y','mag_hand_z',])
+
     DataViz.plot_dataset(dataset, ['acc_', 'gyr_', 'hr', 'temp_', 'mag_'], ['like', 'like', 'like', 'like', 'like', 'like', 'like'], ['line', 'line', 'line', 'line', 'line', 'line', 'points'])
 
     # And print a summary of the dataset
@@ -95,4 +97,4 @@ for milliseconds_per_instance in granularities:
 util.print_latex_table_statistics_two_datasets(datasets[0], datasets[1])
 
 # Finally, store the last dataset we have generated (250 ms).
-dataset.to_csv(result_dataset_path + 'pmap_chapter2_result.csv')
+#dataset.to_csv(result_dataset_path + 'pmap_chapter2_result.csv')

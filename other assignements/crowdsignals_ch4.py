@@ -19,7 +19,7 @@ import pandas as pd
 DataViz = VisualizeDataset()
 
 # Read the result from the previous chapter, and make sure the index is of the type datetime.
-dataset_path = './intermediate_datafiles/'
+dataset_path = '.././intermediate_datafiles/'
 try:
     dataset = pd.read_csv(dataset_path + 'chapter3_result_final.csv', index_col=0)
 except IOError as e:
@@ -30,7 +30,7 @@ except IOError as e:
 dataset.index = pd.to_datetime(dataset.index)
 
 # Compute the number of milliseconds covered by an instane based on the first two rows
-milliseconds_per_instance = (dataset.index[1] - dataset.index[0]).microseconds/1000
+milliseconds_per_instance = 1000
 
 
 # Chapter 4: Identifying aggregate attributes.

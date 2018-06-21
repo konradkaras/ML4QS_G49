@@ -33,7 +33,7 @@ except IOError as e:
 dataset.index = pd.to_datetime(dataset.index)
 
 # Compute the number of milliseconds covered by an instane based on the first two rows
-milliseconds_per_instance = (dataset.index[1] - dataset.index[0]).microseconds/1000
+milliseconds_per_instance = 1000
 
 FreqAbs = FourierTransformation()
 fs = float(1000)/milliseconds_per_instance
