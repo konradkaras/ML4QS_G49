@@ -45,7 +45,7 @@ class DistributionBasedOutlierDetection:
             prob.append(1.0 - 0.5 * (scipy.special.erf(high[i]) - scipy.special.erf(low[i])))
             # And mark as an outlier when the probability is below our criterion.
             mask.append(prob[i] < criterion)
-        data_table[col + '_outlier_ch'] = mask
+        data_table[col + '_outlier'] = mask
         return data_table
 
     # Fits a mixture model towards the data expressed in col and adds a column with the probability
@@ -55,10 +55,10 @@ class DistributionBasedOutlierDetection:
         data = data_table[data_table[col].notnull()][col]
         g = mixture.GMM(n_components=3, n_iter=1)
 
-        g.fit(data.values.reshape(-1,1))
+        g.fit(data.reshape(-1,1))
 
         # Predict the probabilities
-        probs = g.score(data.values.reshape(-1,1))
+        probs = g.score(data.reshape(-1,1))
 
         # Create the right data frame and concatenate the two.
         data_probs = pd.DataFrame(np.power(10, probs), index=data.index, columns=[col+'_mixture'])
@@ -90,7 +90,7 @@ class DistanceBasedOutlierDetection:
             frac = (float(sum([1 for col_val in distances.ix[i,:].tolist() if col_val > dmin]))/len(new_data_table.index))
             # Mark as an outlier if beyond the minimum frequency.
             mask.append(frac > fmin)
-        data_mask = pd.DataFrame(mask, index=new_data_table.index, columns=[cols[0] + '_simple_dist_outlier'])
+        data_mask = pd.DataFrame(mask, index=new_data_table.index, columns=['simple_dist_outlier'])
         data_table = pd.concat([data_table, data_mask], axis=1)
         return data_table
 
@@ -110,7 +110,7 @@ class DistanceBasedOutlierDetection:
         for i in range(0, len(new_data_table.index)):
             print i
             outlier_factor.append(self.local_outlier_factor_instance(i, k))
-        data_outlier_probs = pd.DataFrame(outlier_factor, index=new_data_table.index, columns=[cols[0] + '_lof'])
+        data_outlier_probs = pd.DataFrame(outlier_factor, index=new_data_table.index, columns=['lof'])
         data_table = pd.concat([data_table, data_outlier_probs], axis=1)
         return data_table
 
@@ -162,4 +162,3 @@ class DistanceBasedOutlierDetection:
 
         # Return the average ratio.
         return sum(lrd_ratios_array) / len(neighbors)
-
