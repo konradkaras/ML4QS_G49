@@ -28,7 +28,7 @@ class DistributionBasedOutlierDetection:
         mean = data_table[col].mean()
         std = data_table[col].std()
         N = len(data_table.index)
-        criterion = 1.0/(10*N)
+        criterion = 1.0/(2*N)
 
         # Consider the deviation for the data points.
         deviation = abs(data_table[col] - mean)/std
@@ -53,7 +53,7 @@ class DistributionBasedOutlierDetection:
     def mixture_model(self, data_table, col):
         # Fit a mixture model to our data.
         data = data_table[data_table[col].notnull()][col]
-        g = mixture.GMM(n_components=6, n_iter=1)
+        g = mixture.GMM(n_components=3, n_iter=1)
 
         g.fit(data.values.reshape(-1,1))
 
