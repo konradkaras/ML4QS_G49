@@ -47,6 +47,9 @@ for ws in window_sizes:
     dataset_copy = NumAbs.abstract_numerical(dataset_copy, ['gyr_ankle_x'], ws, 'std')
     #dataset_copy = NumAbs.abstract_numerical(dataset_copy, ['gyr_ankle_x'], ws, 'slope')
 
+DataViz.plot_dataset(dataset_copy,['gyr_ankle_x','gyr_ankle_x_temp_std','gyr_ankle_x_temp_mean','label'],['like','like','like','like'],['line','line','line','points'])
+
+
 ws = int(float(0.5*60000)/milliseconds_per_instance)
 selected_predictor_cols = [c for c in dataset.columns if not 'label' in c]
 dataset = NumAbs.abstract_numerical(dataset, selected_predictor_cols, ws, 'mean')
@@ -54,10 +57,6 @@ dataset = NumAbs.abstract_numerical(dataset, selected_predictor_cols, ws, 'std')
 #dataset = NumAbs.abstract_numerical(dataset, selected_predictor_cols, ws, 'slope')
 
 #visualization of mean and std of gyr_ankle x
-
-DataViz.plot_dataset(dataset_copy,['gyr_ankle_x','gyr_ankle_x_temp_std','gyr_ankle_x_temp_mean','label'],['like','like','like','like'],['line','line','line','points'])
-
-
 
 CatAbs = CategoricalAbstraction()
 dataset = CatAbs.abstract_categorical(dataset, ['label'], ['like'], 0.03, int(float(5*60000)/milliseconds_per_instance), 2)
@@ -76,7 +75,7 @@ periodic_predictor_cols = ['acc_ankle_x','acc_ankle_y','acc_ankle_z','acc_chest_
 'mag_chest_y','mag_chest_z','mag_hand_x','mag_hand_y',
 'mag_hand_z']
 
-data_table = FreqAbs.abstract_frequency(copy.deepcopy(dataset), ['gyr_ankle_x'], int(float(10000)/milliseconds_per_instance), fs)
+data_table = FreqAbs.abstract_frequency(copy.deepcopy(dataset), ['gyr_ankle_x'], int(float(20000)/milliseconds_per_instance), fs)
 
 # Spectral analysis visualization here.
 
