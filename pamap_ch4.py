@@ -84,7 +84,7 @@ DataViz.plot_dataset(data_table, ['gyr_ankle_x_max_freq', 'gyr_ankle_x_freq_weig
 
 # Spectral analysis.
 
-dataset = FreqAbs.abstract_frequency(dataset, periodic_predictor_cols, int(float(10000)/milliseconds_per_instance), fs)
+dataset = FreqAbs.abstract_frequency(dataset, periodic_predictor_cols, int(float(20000)/milliseconds_per_instance), fs)
 
 # Now we only take a certain percentage of overlap in the windows, otherwise our training examples will be too much alike.
 
