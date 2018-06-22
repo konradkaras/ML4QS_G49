@@ -30,7 +30,7 @@ except IOError as e:
 dataset.index = pd.to_datetime(dataset.index)
 
 # Compute the number of milliseconds covered by an instane based on the first two rows
-milliseconds_per_instance = 1000
+milliseconds_per_instance = 2000
 
 
 # Chapter 4: Identifying aggregate attributes.
@@ -45,15 +45,17 @@ dataset_copy = copy.deepcopy(dataset)
 for ws in window_sizes:
     dataset_copy = NumAbs.abstract_numerical(dataset_copy, ['gyr_ankle_x'], ws, 'mean')
     dataset_copy = NumAbs.abstract_numerical(dataset_copy, ['gyr_ankle_x'], ws, 'std')
+    #dataset_copy = NumAbs.abstract_numerical(dataset_copy, ['gyr_ankle_x'], ws, 'slope')
 
 ws = int(float(0.5*60000)/milliseconds_per_instance)
 selected_predictor_cols = [c for c in dataset.columns if not 'label' in c]
 dataset = NumAbs.abstract_numerical(dataset, selected_predictor_cols, ws, 'mean')
 dataset = NumAbs.abstract_numerical(dataset, selected_predictor_cols, ws, 'std')
+#dataset = NumAbs.abstract_numerical(dataset, selected_predictor_cols, ws, 'slope')
 
 #visualization of mean and std of gyr_ankle x
 
-#DataViz.plot_dataset(dataset_copy,['gyr_ankle_x','gyr_ankle_x_temp_slope','gyr_ankle_x_temp_mean','label'],['like','like','like','like'],['line','line','line','points'])
+DataViz.plot_dataset(dataset_copy,['gyr_ankle_x','gyr_ankle_x_temp_std','gyr_ankle_x_temp_mean','label'],['like','like','like','like'],['line','line','line','points'])
 
 
 
@@ -94,6 +96,6 @@ dataset = dataset.iloc[::skip_points,:]
 
 #visualization of dataset again
 
-#DataViz.plot_dataset(dataset,['acc_ankle_x','gyr_ankle_x','hr_hr','temp_ankle_temp','mag_ankle_x','pca_2','pca_1','label'],['like','like','like','like','like','like','like','like'],['line','line','line','line','line','line','line','points'])
+DataViz.plot_dataset(dataset,['acc_ankle_x','gyr_ankle_x','hr_hr','temp_ankle_temp','mag_ankle_x','PCX2','PCX1','label'],['like','like','like','like','like','like','like','like'],['line','line','line','line','line','line','line','points'])
 
 dataset.to_csv(dataset_path + 'pamap_chapter4_result.csv')
