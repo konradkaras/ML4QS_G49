@@ -20,7 +20,7 @@ DataViz = VisualizeDataset()
 dataset_path = './intermediate_datafiles/'
 
 try:
-    dataset = pd.read_csv(dataset_path + 'kokar_chapter4_result.csv', index_col=0)
+    dataset = pd.read_csv(dataset_path + 'pamap_chapter4_result.csv', index_col=0)
 except IOError as e:
     print('File not found, try to run previous crowdsignals scripts first!')
     raise e
@@ -40,7 +40,7 @@ silhouette_values = []
 print '===== kmeans clustering ====='
 for k in k_values:
     print 'k = ', k
-    dataset_cluster = clusteringNH.k_means_over_instances(copy.deepcopy(dataset), ['mag_x', 'mag_y', 'mag_z'], k, 'default', 20, 10)
+    dataset_cluster = clusteringNH.k_means_over_instances(copy.deepcopy(dataset), ['mag_ankle_x', 'mag_ankle_y', 'mag_ankle_z'], k, 'default', 20, 10)
     silhouette_score = dataset_cluster['silhouette'].mean()
     print 'silhouette = ', silhouette_score
     silhouette_values.append(silhouette_score)
@@ -53,12 +53,12 @@ plot.show()
 
 # And run the knn with the highest silhouette score
 
-k = 7
+k = 8
 
-dataset_knn = clusteringNH.k_means_over_instances(copy.deepcopy(dataset), ['mag_x', 'mag_y', 'mag_z'], k, 'default', 50, 50)
-DataViz.plot_clusters_3d(dataset_knn, ['mag_x', 'mag_y', 'mag_z'], 'cluster', ['label'])
+dataset_knn = clusteringNH.k_means_over_instances(copy.deepcopy(dataset), ['mag_ankle_x', 'mag_ankle_y', 'mag_ankle_z'], k, 'default', 50, 50)
+DataViz.plot_clusters_3d(dataset_knn, ['mag_ankle_x', 'mag_ankle_y', 'mag_ankle_z'], 'cluster', ['label'])
 DataViz.plot_silhouette(dataset_knn, 'cluster', 'silhouette')
-util.print_latex_statistics_clusters(dataset_knn, 'cluster', ['mag_x', 'mag_y', 'mag_z'], 'label')
+util.print_latex_statistics_clusters(dataset_knn, 'cluster', ['mag_ankle_x', 'mag_ankle_y', 'mag_ankle_z'], 'label')
 del dataset_knn['silhouette']
 
 
@@ -70,7 +70,7 @@ silhouette_values = []
 print '===== k medoids clustering ====='
 for k in k_values:
     print 'k = ', k
-    dataset_cluster = clusteringNH.k_medoids_over_instances(copy.deepcopy(dataset), ['mag_x', 'mag_y', 'mag_z'], k, 'default', 20, n_inits=10)
+    dataset_cluster = clusteringNH.k_medoids_over_instances(copy.deepcopy(dataset), ['mag_ankle_x', 'mag_ankle_y', 'mag_ankle_z'], k, 'default', 20, n_inits=10)
     silhouette_score = dataset_cluster['silhouette'].mean()
     print 'silhouette = ', silhouette_score
     silhouette_values.append(silhouette_score)
@@ -85,10 +85,10 @@ plot.show()
 
 k = 6
 
-dataset_kmed = clusteringNH.k_medoids_over_instances(copy.deepcopy(dataset), ['mag_x', 'mag_y', 'mag_z'], k, 'default', 20, n_inits=50)
-DataViz.plot_clusters_3d(dataset_kmed, ['mag_x', 'mag_y', 'mag_z'], 'cluster', ['label'])
+dataset_kmed = clusteringNH.k_medoids_over_instances(copy.deepcopy(dataset), ['mag_ankle_x', 'mag_ankle_y', 'mag_ankle_z'], k, 'default', 20, n_inits=50)
+DataViz.plot_clusters_3d(dataset_kmed, ['mag_ankle_x', 'mag_ankle_y', 'mag_ankle_z'], 'cluster', ['label'])
 DataViz.plot_silhouette(dataset_kmed, 'cluster', 'silhouette')
-util.print_latex_statistics_clusters(dataset_kmed, 'cluster', ['mag_x', 'mag_y', 'mag_z'], 'label')
+util.print_latex_statistics_clusters(dataset_kmed, 'cluster', ['mag_ankle_x', 'mag_ankle_y', 'mag_ankle_z'], 'label')
 
 # And the hierarchical clustering is the last one we try
 
@@ -102,7 +102,7 @@ silhouette_values = []
 print '===== agglomaritive clustering ====='
 for k in k_values:
     print 'k = ', k
-    dataset_cluster, l = clusteringH.agglomerative_over_instances(copy.deepcopy(dataset), ['mag_x', 'mag_y', 'mag_z'], k, 'euclidean', use_prev_linkage=True, link_function='ward')
+    dataset_cluster, l = clusteringH.agglomerative_over_instances(copy.deepcopy(dataset), ['mag_ankle_x', 'mag_ankle_y', 'mag_ankle_z'], k, 'euclidean', use_prev_linkage=True, link_function='ward')
     silhouette_score = dataset_cluster['silhouette'].mean()
     print 'silhouette = ', silhouette_score
     silhouette_values.append(silhouette_score)
@@ -117,4 +117,4 @@ plot.show()
 
 # And we select the outcome dataset of the knn clustering....
 
-#dataset_knn.to_csv(dataset_path + 'chapter5_result.csv')
+dataset_knn.to_csv(dataset_path + 'pamap_chapter5_result.csv')
